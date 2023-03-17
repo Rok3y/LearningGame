@@ -117,8 +117,8 @@ void Screen::Draw(const Line2D& line, const Color& color)
         dx = x1 - x0;
         dy = y1 - y0;
 
-        signed const char ix((dx > 0) - (dx < 0)); // evaluate to 1 or -1 (weather we go left or right)
-        signed const char iy((dy > 0) - (dy < 0)); // evaluate to 1 or -1 (weather we go up or down)
+        signed const char ix((dx > 0) - (dx < 0)); // evaluate to 1 or -1 (weather we go right or left)
+        signed const char iy((dy > 0) - (dy < 0)); // evaluate to 1 or -1 (weather we down up or up)
 
         // Multiply by 2 to get rid of floating point math
         dx = abs(dx) * 2;
@@ -154,7 +154,7 @@ void Screen::Draw(const Line2D& line, const Color& color)
             int d = dx - dy / 2; // Distance between center of 2 pixels or rate of change. Devid by 2 here to get rid of floats.
             while (y0 != y1)
             {
-                // The decision maker if we increase y or not
+                // The decision maker if we increase x or not
                 if (d >= 0)
                 {
                     d -= dy;
@@ -163,7 +163,7 @@ void Screen::Draw(const Line2D& line, const Color& color)
 
                 d += dx;
 
-                // Go along x axis
+                // Go along y axis
                 y0 += iy;
 
                 Draw(x0, y0, color);

@@ -2,7 +2,10 @@
 * Utils
 */
 
+#define _USE_MATH_DEFINES
+
 #include "Utils.h"
+#include <math.h>
 #include <cmath>
 
 /*
@@ -21,4 +24,9 @@ bool IsGreaterOrEqual(float x, float y)
 bool IsLessThanOrEqual(float x, float y)
 {
 	return x < y || IsEqual(x, y);
+}
+
+float DegToRad(int degree)
+{
+	return degree * M_PI / 180;
 }

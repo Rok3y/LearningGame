@@ -9,4 +9,6 @@ bool IsGreaterOrEqual(float x, float y);
 
 bool IsLessThanOrEqual(float x, float y);
 
+float DegToRad(int degree);
+
 #endif /* UTILS_UTILS_H_ */

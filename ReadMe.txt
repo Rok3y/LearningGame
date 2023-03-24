@@ -1,1 +1,0 @@
-Using Visual studio 2022 and msvc compiler

@@ -15,6 +15,10 @@ public:
 	static const SDL_PixelFormat* mFormat;
 	static void InitColorFormat(const SDL_PixelFormat* format);
 
+	// Blending equation
+	// SourceRGB * sourceAlpha + destinationRGB * (1 - sourceAlpha)
+	static Color Evaluate1MinueSourceAplha(const Color& source, const Color& destination);
+
 	static Color Black(){ return Color(0, 0, 0, 255); }
 	static Color White() { return Color(255, 255, 255, 255); }
 	static Color Blue() { return Color(0, 0, 255, 255); }
@@ -28,18 +32,18 @@ public:
 
 	Color(): Color(0) {}
 	Color(uint32_t color) : mColor(color) {}
-	Color(uint32_t r, uint32_t g, uint32_t b, uint32_t a);
+	Color(uint8_t r, uint8_t g, uint8_t b, uint8_t a);
 
 	inline bool operator==(const Color& c) const { mColor == c.mColor; }
 	inline bool operator!=(const Color& c) const { return !(*this == c); }
 	inline uint32_t GetPixelColor() const { return mColor; }
 
-	void SetRGBA(uint32_t r, uint32_t g, uint32_t b, uint32_t a);
+	void SetRGBA(uint8_t r, uint8_t g, uint8_t b, uint8_t a);
 
-	void SetRed(uint32_t red);
-	void SetGreen(uint32_t green);
-	void SetBlue(uint32_t blue);
-	void SetAlpha(uint32_t alpha);
+	void SetRed(uint8_t red);
+	void SetGreen(uint8_t green);
+	void SetBlue(uint8_t blue);
+	void SetAlpha(uint8_t alpha);
 
 	uint8_t GetRed() const;
 	uint8_t GetGreen() const;

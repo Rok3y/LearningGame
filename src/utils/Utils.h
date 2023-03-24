@@ -3,6 +3,9 @@
 
 static const float EPSILON = 0.0001f;
 
+const float PI = 3.14159f;
+const float TWO_PI = 2.0f * PI;
+
 bool IsEqual(float x, float y);
 
 bool IsGreaterOrEqual(float x, float y);

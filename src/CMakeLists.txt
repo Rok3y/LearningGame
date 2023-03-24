@@ -18,7 +18,7 @@ include_directories(Graphics)
 include_directories(Shapes)
 file(GLOB SOURCES ${ARCADE_LIB_SRCS})
 	
-add_executable(${PROJECT_NAME} main.cpp ${SOURCES} "Shapes/Line2D.cpp" "Shapes/Star.h" "Shapes/Star.cpp")
+add_executable(${PROJECT_NAME} main.cpp ${SOURCES} "Shapes/Line2D.cpp" "Shapes/Star.h" "Shapes/Star.cpp" "Shapes/Shape.h" "Shapes/Shape.cpp" "Shapes/Triangle.h" "Shapes/Triangle.cpp" "Shapes/AARectangle.h" "Shapes/AARectangle.cpp" "Shapes/Circle.h" "Shapes/Circle.cpp")
 
 link_libraries(SDL2::SDL2 ${SDL2_LIBRARIES})
 target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARIES})

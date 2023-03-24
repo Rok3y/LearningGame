@@ -1,0 +1,63 @@
+int main(int argc, char* argv[]) 
+{
+    Screen theScreen;
+    theScreen.Init(SCREEN_WIDTH, SCREEN_HEIGHT, MAGNIFICATION);
+
+    Vec2D p1 = Vec2D(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
+    Vec2D p2 = Vec2D(SCREEN_WIDTH, SCREEN_HEIGHT);
+    Line2D line = { p1, p2 };
+
+    theScreen.Draw(line, Color::White());
+
+    //theScreen.Draw(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, Color::Yellow());
+    theScreen.SwapScreen();
+
+
+
+    // Pentagon
+    Vec2D starPosition = Vec2D(SCREEN_WIDTH / 2 + 50, SCREEN_HEIGHT / 2);
+    Star star(starPosition, 20);
+    std::vector<Line2D> starLines = star.GetLines();
+
+    for (int i = 0; i < starLines.size(); i++)
+    {
+        theScreen.Draw(starLines.at(i), Color::Blue());
+    }
+
+    theScreen.SwapScreen();
+
+    SDL_Event sdlEvent;
+    bool running = true;
+
+    while (running)
+    {
+        while (SDL_PollEvent(&sdlEvent))
+        {
+            switch (sdlEvent.type)
+            {
+            case SDL_QUIT:
+                running = false;
+                break;
+            }
+        }
+
+        // Rotating line
+        /*line.SetP1(line.GetP1().RotationResult(0.001, p1));
+        theScreen.Draw(line, Color::White());*/
+
+        // Rotating line
+        line.SetP1(line.GetP1().RotationResult(0.005, p1));
+        theScreen.Draw(line, Color::White());
+
+        // Draw star
+        for (int i = 0; i < star.GetLines().size(); i++)
+        {
+            theScreen.Draw(star.GetLines().at(i), Color::Blue());
+        }
+        star.Rotate(0.005, p1);
+
+        theScreen.SwapScreen();
+    }
+
+    return 0;
+}

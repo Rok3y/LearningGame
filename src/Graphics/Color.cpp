@@ -10,7 +10,6 @@ void Color::InitColorFormat(const SDL_PixelFormat* format)
 
 
 Color::Color(uint8_t r, uint8_t g, uint8_t b, uint8_t a)
-	:red(r), green(g), blue(b), alpha(a)
 {
 	SetRGBA(r, g, b, a);
 }
@@ -110,11 +109,21 @@ uint8_t Color::GetAlpha() const
 
 Color Color::Evaluate1MinueSourceAplha(const Color& source, const Color& destination)
 {
+	// Check if there is bug in SDL_GetRGBA
+	// 	uint8_t r;
+	// uint8_t g;
+	// uint8_t b;
+	// uint8_t a;
+	// uint32_t testColor = SDL_MapRGBA(mFormat, 0, 255, 0, 150);
+	// SDL_GetRGBA(testColor, mFormat, &r, &g, &b, &a);
+	//
+	// Here a should be set to 150, not 255
+
 	// SourceRGB * sourceAlpha + destinationRGB * (1 - sourceAlpha)
 	uint8_t alpha = source.GetAlpha();
 
 	float sourceAlpha = float(alpha) / 255.0f;
-	double destAlpha = 1.0f - sourceAlpha; 
+	double destAlpha = 1.0f - sourceAlpha;
 
 	Color outColor;
 	outColor.SetAlpha(255);

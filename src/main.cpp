@@ -35,8 +35,12 @@ int main(int argc, char* argv[])
     //theScreen.Draw(line, Color::White());
 
     //theScreen.Draw(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, Color::Yellow());
-    theScreen.SwapScreen();
+    //theScreen.SwapScreen();
 
+    triangle.MoveTo(Vec2D(20, 50));
+    theScreen.Draw(triangle, Color::Cyan(), true, Color::Cyan());
+
+    theScreen.SwapScreen();
 
     SDL_Event sdlEvent;
     bool running = true;

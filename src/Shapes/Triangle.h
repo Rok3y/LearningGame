@@ -23,6 +23,8 @@ public:
 
 	bool ContainsPoint(const Vec2D& p) const;
 
+	virtual void MoveTo(const Vec2D& p) override;
+
 private:
 	float Area(const Vec2D& p0, const Vec2D& p1, const Vec2D& p2) const;
 

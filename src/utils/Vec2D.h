@@ -51,6 +51,8 @@ public:
 
     friend Vec2D operator*(float scalar, const Vec2D& vec); // To use scalar before vec (e.g 3 * vec)
 
+    void Print() const;
+
 private:
     float mX, mY;
 };

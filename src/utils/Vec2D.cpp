@@ -172,3 +172,8 @@ Vec2D Vec2D::RotationResult(float angle, Vec2D& aroundPoint) const
     Vec2D rot = Vec2D(xRot, yRot);
     return rot + aroundPoint;
 }
+
+void Vec2D::Print() const
+{
+    printf("x: %f, y: %f", mX, mY);
+}

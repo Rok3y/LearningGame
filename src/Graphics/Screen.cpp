@@ -46,7 +46,10 @@ SDL_Window* Screen::Init(uint32_t width, uint32_t height, uint32_t mag)
     {
         mnoptrWindowSurface = SDL_GetWindowSurface(moptrWindow);
 
-        SDL_PixelFormat* pixelFormat = mnoptrWindowSurface->format;
+        // This returned RGB888 pixel format which ignores the alpha channel
+        //SDL_PixelFormat* pixelFormat = mnoptrWindowSurface->format;
+
+        SDL_PixelFormat* pixelFormat = SDL_AllocFormat(SDL_PIXELFORMAT_RGBA8888);
 
         Color::InitColorFormat(pixelFormat);
 

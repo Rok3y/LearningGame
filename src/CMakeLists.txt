@@ -11,14 +11,40 @@ set(ARCADE_LIB_SRCS
 	Graphics/ScreenBuffer.cpp
 	Graphics/Screen.h
 	Graphics/Screen.cpp
-	Shapes/Line2D.h)
+	Shapes/Line2D.h
+	Shapes/Line2D.cpp
+	Shapes/Star.h
+	Shapes/Star.cpp
+	Shapes/Shape.h
+	Shapes/Shape.cpp
+	Shapes/Triangle.h
+	Shapes/Triangle.cpp
+	Shapes/AARectangle.h
+	Shapes/AARectangle.cpp
+	Shapes/Circle.h
+	Shapes/Circle.cpp
+	Scenes/Scene.h
+	Scenes/ArcadeScene.h
+	Scenes/ArcadeScene.cpp
+	App/App.h
+	App/App.cpp
+	Input/InputAction.h
+	Input/GameController.h
+	Input/GameController.cpp
+	Input/InputController.h
+	Input/InputController.cpp
+)
 
 include_directories(utils)
 include_directories(Graphics)
 include_directories(Shapes)
+include_directories(App)
+include_directories(Scenes)
+include_directories(Input)
+include_directories(Games)
 file(GLOB SOURCES ${ARCADE_LIB_SRCS})
 	
-add_executable(${PROJECT_NAME} main.cpp ${SOURCES} "Shapes/Line2D.cpp" "Shapes/Star.h" "Shapes/Star.cpp" "Shapes/Shape.h" "Shapes/Shape.cpp" "Shapes/Triangle.h" "Shapes/Triangle.cpp" "Shapes/AARectangle.h" "Shapes/AARectangle.cpp" "Shapes/Circle.h" "Shapes/Circle.cpp")
+add_executable(${PROJECT_NAME} main.cpp ${SOURCES} "Games/Game.h" "Scenes/GameScene.h" "Scenes/GameScene.cpp" "utils/FileCommandLoader.h" "utils/FileCommandLoader.cpp")
 
 link_libraries(SDL2::SDL2 ${SDL2_LIBRARIES})
 target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARIES})

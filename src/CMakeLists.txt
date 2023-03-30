@@ -44,7 +44,7 @@ include_directories(Input)
 include_directories(Games)
 file(GLOB SOURCES ${ARCADE_LIB_SRCS})
 	
-add_executable(${PROJECT_NAME} main.cpp ${SOURCES} "Games/Game.h" "Scenes/GameScene.h" "Scenes/GameScene.cpp" "utils/FileCommandLoader.h" "utils/FileCommandLoader.cpp")
+add_executable(${PROJECT_NAME} main.cpp ${SOURCES} "Games/Game.h" "Scenes/GameScene.h" "Scenes/GameScene.cpp" "utils/FileCommandLoader.h" "utils/FileCommandLoader.cpp" "Shapes/ChesePiece.h" "Shapes/Pawn.h" "Shapes/ChessBoard.h" "Shapes/ChessPiece.cpp" "Shapes/Chessboard.cpp")
 
 link_libraries(SDL2::SDL2 ${SDL2_LIBRARIES})
 target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARIES})

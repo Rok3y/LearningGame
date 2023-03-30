@@ -13,7 +13,7 @@ public:
 		: moptrData(nullptr), mSize(0), mCapacity(0)
 	{}
 
-	DynamicIntArray(const DynamicIntArray& otherArray); // Copy constructor (Deep copy
+	DynamicIntArray(const DynamicIntArray& otherArray); // Copy constructor (Deep copy)
 	
 	DynamicIntArray& operator=(const DynamicIntArray& otherArray);
 	~DynamicIntArray();

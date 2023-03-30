@@ -7,6 +7,8 @@
 #include "Line2D.h"
 #include "GameController.h"
 #include <iostream>
+#include "ChessBoard.h"
+#include "Pawn.h"
 
 ArcadeScene::ArcadeScene()
 {
@@ -52,14 +54,42 @@ void ArcadeScene::Update(uint32_t dt)
 
 void ArcadeScene::Draw(Screen& theScreen)
 {
-	Line2D line = { Vec2D(0,0), Vec2D(theScreen.Width(), theScreen.Height()) };
-	Triangle triangle = { Vec2D(60, 10), Vec2D(10, 110), Vec2D(110, 110) };
-	AARectangle rect = { Vec2D(theScreen.Width() / 2 - 25, theScreen.Height() / 2 - 25), 50, 50 };
-	Circle circle = { Vec2D(theScreen.Width() / 2 + 50, theScreen.Height() / 2 + 50), 50 };
+	//Line2D line = { Vec2D(0,0), Vec2D(theScreen.Width(), theScreen.Height()) };
+	//Triangle triangle = { Vec2D(60, 10), Vec2D(10, 110), Vec2D(110, 110) };
+	//AARectangle rect = { Vec2D(theScreen.Width() / 2 - 25, theScreen.Height() / 2 - 25), 50, 50 };
+	//Circle circle = { Vec2D(theScreen.Width() / 2 + 50, theScreen.Height() / 2 + 50), 50 };
 
-	theScreen.Draw(triangle, Color::Red(), true, Color::Red());
-	theScreen.Draw(rect, Color::Blue(), true, Color::Blue());
-	theScreen.Draw(circle, Color(0, 255, 0, 150), true, Color(0, 255, 0, 150));
+	//theScreen.Draw(line, Color::White());
+	//theScreen.Draw(triangle, Color::Red(), true, Color::Red());
+	//theScreen.Draw(rect, Color::Blue(), true, Color::Blue());
+	//theScreen.Draw(circle, Color(0, 255, 0, 150), true, Color(0, 255, 0, 150));
+
+	// Move creation out of draw method
+	ChessBoard board = { theScreen.Width(), theScreen.Height()};
+
+	int counter = 0;
+	int fillPolly = false;
+	for (const AARectangle& rect : board.GetBoardRectangles())
+	{
+		theScreen.Draw(rect, Color::White(), fillPolly, Color::White());
+		counter++;
+
+		if (counter % 8 == 0)
+		{
+			continue;
+		}
+
+		fillPolly = ~fillPolly;
+	}
+
+	board.Init();
+	std::vector<Line2D> pawnLines = static_cast<Pawn*>(board.GetPieces().at(0))->GetLines();
+
+	for (Line2D& line : pawnLines)
+	{
+		theScreen.Draw(line, Color::Magenta());
+	}
+	
 }
 
 const std::string& ArcadeScene::GetSceneName() const

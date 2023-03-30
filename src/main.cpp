@@ -1,6 +1,10 @@
 #include <iostream>
 #include "App.h"
 
+#include "ChesePiece.h"
+#include "ChessBoard.h"
+#include "Pawn.h"
+
 using namespace std;
 
 const int SCREEN_WIDTH = 224;
@@ -13,7 +17,30 @@ int main(int argc, char* argv[])
     {
         App::Singleton().Run();
     }
-    
+
+    //ChessBoard b;
+    //b.Init();
+    //b.GetPieces();
+
+    //std::cout << "Pieces size: " << b.GetPieces().size() << std::endl;
+
+    //auto pawn = b.GetPieces().at(0);
+
+    //if (pawn)
+    //{
+    //    std::cout << "pawn alive: " << pawn->GetPieceId() << std::endl;
+    //}
+
+    //b.RemovePiece(pawn);
+
+    //std::cout << "Pieces size: " << b.GetPieces().size() << std::endl;
+
+    //if (pawn)
+    //{
+    //    std::cout << "pawn alive: " << pawn << std::endl;
+    //}
+
+    //
 
     return 0;
 }

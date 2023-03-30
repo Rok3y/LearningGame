@@ -1,6 +1,7 @@
 #include "ChesePiece.h"
 
-ChessPiece::ChessPiece(uint8_t id) : mId(id)
+ChessPiece::ChessPiece(uint8_t id, PieceColor color, PieceName name, Vec2D position, uint8_t size)
+	:mId(id), mPieceColor(color), mPieceName(name), mBoardPosition(position), mSize(size)
 {
 
 }

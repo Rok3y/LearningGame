@@ -12,10 +12,6 @@ public:
 	virtual Vec2D GetCenterPoint() const override;
 	virtual void MoveTo(const Vec2D& p) override;
 
-	inline const std::vector<Line2D> GetLines() const { return mLines; }
-
-private:
-	std::vector<Line2D> mLines;
 };
 
 #endif /* SHAPES_PAWN_H_ */

@@ -11,6 +11,7 @@ class Line2D;
 class Triangle;
 class AARectangle;
 class Circle;
+class ChessPiece;
 struct SDL_Window;
 struct SDL_Surface;
 
@@ -37,6 +38,7 @@ public:
 	void Draw(const Triangle& triangle, const Color& color, bool fill = false, const Color& fillColor = Color::White());
 	void Draw(const AARectangle& rect, const Color& color, bool fill = false, const Color& fillColor = Color::White());
 	void Draw(const Circle& circle, const Color& color, bool fill = false, const Color& fillColor = Color::White());
+	void Draw(const ChessPiece& piece, const Color& color, bool fill = false, const Color & fillColor = Color::White());
 
 private:
 

@@ -5,6 +5,7 @@
 #include "Triangle.h"
 #include "AARectangle.h"
 #include "Circle.h"
+#include "ChesePiece.h"
 #include "Utils.h"
 #include <SDL.h>
 #include <iostream>
@@ -236,6 +237,28 @@ void Screen::Draw(const Circle& circle, const Color& color, bool fill, const Col
     if (fill)
     {
         FillPoly(circlePoints, fillColor);
+    }
+
+    for (const Line2D& line : lines)
+    {
+        Draw(line, color);
+    }
+}
+
+void Screen::Draw(const ChessPiece& piece, const Color& color, bool fill, const Color& fillColor)
+{
+    std::vector<Vec2D> points = piece.GetPoints();
+    std::vector<Line2D> lines;
+    lines.reserve(points.size() / 2);
+
+    for(int i = 0; i < points.size() - 1; i++)
+    {
+        lines.push_back(Line2D(points[i], points[i + 1]));
+    }
+
+    if (fill)
+    {
+        FillPoly(points, fillColor);
     }
 
     for (const Line2D& line : lines)

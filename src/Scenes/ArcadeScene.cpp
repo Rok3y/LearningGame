@@ -83,12 +83,7 @@ void ArcadeScene::Draw(Screen& theScreen)
 	}
 
 	board.Init();
-	std::vector<Line2D> pawnLines = static_cast<Pawn*>(board.GetPieces().at(0))->GetLines();
-
-	for (Line2D& line : pawnLines)
-	{
-		theScreen.Draw(line, Color::Magenta());
-	}
+	theScreen.Draw((*board.GetPieces().at(0)), Color::Magenta(), true, Color::Cyan());
 	
 }
 

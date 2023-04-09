@@ -12,6 +12,9 @@ public:
 	virtual Vec2D GetCenterPoint() const override;
 	virtual void MoveTo(const Vec2D& p) override;
 
+private:
+	Vec2D mPosition;
+
 };
 
 #endif /* SHAPES_PAWN_H_ */

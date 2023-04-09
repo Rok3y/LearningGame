@@ -245,9 +245,9 @@ void Screen::Draw(const Circle& circle, const Color& color, bool fill, const Col
     }
 }
 
-void Screen::Draw(const ChessPiece& piece, const Color& color, bool fill, const Color& fillColor)
+void Screen::Draw(const std::shared_ptr<ChessPiece>& piece, const Color& color, bool fill, const Color& fillColor)
 {
-    std::vector<Vec2D> points = piece.GetPoints();
+    std::vector<Vec2D> points = piece->GetPoints();
     std::vector<Line2D> lines;
     lines.reserve(points.size() / 2);
 

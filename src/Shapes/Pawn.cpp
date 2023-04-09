@@ -3,7 +3,7 @@
 #include "Utils.h"
 
 Pawn::Pawn(uint8_t id, PieceColor color, PieceName name, Vec2D position, uint8_t size)
-	: ChessPiece(id, color, name, position, size)
+	:mPosition(position), ChessPiece(id, color, name, position, size)
 {
 
 	Vec2D center = position - Vec2D(5, 3);
@@ -21,7 +21,7 @@ Pawn::Pawn(uint8_t id, PieceColor color, PieceName name, Vec2D position, uint8_t
 	float radRotate = DegToRad(-12);
 	Vec2D headCenter = { center.GetX() + (5 * mSize), center.GetY() - (9 * mSize) };
 	
-	auto first = (headCenter + Vec2D((4 + mSize), 5));
+	auto first = (headCenter + Vec2D((4 + mSize), 4));
 	mPoints.push_back(first);
 	
 	mPoints.push_back(mPoints.at(mPoints.size()-1).RotationResult(radRotate, headCenter));
@@ -43,7 +43,16 @@ Pawn::Pawn(uint8_t id, PieceColor color, PieceName name, Vec2D position, uint8_t
 
 Vec2D Pawn::GetCenterPoint() const
 {
-	return Vec2D::Zero;
+	int x, y = 0;
+	for (const Vec2D& point : mPoints)
+	{
+		x += point.GetX();
+		x = x / mPoints.size();
+
+		y += point.GetX();
+		y = y / mPoints.size();
+	}
+	return Vec2D(x, y);
 }
 
 void Pawn::MoveTo(const Vec2D& p)

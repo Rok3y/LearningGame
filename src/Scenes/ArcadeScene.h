@@ -14,6 +14,7 @@ enum eGame
 };
 
 class Screen;
+class ChessBoard;
 
 class ArcadeScene : public Scene
 {
@@ -26,6 +27,8 @@ public:
 
 private:
 	std::unique_ptr<Scene> GetScene(eGame game);
+	std::unique_ptr<ChessBoard> mBoard;
+
 };
 
 #endif /* SCENES_ARCADESCENE_H_ */

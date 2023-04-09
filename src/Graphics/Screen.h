@@ -5,6 +5,7 @@
 #include "ScreenBuffer.h"
 #include "Color.h"
 #include <vector>
+#include <memory>
 
 class Vec2D;
 class Line2D;
@@ -38,7 +39,7 @@ public:
 	void Draw(const Triangle& triangle, const Color& color, bool fill = false, const Color& fillColor = Color::White());
 	void Draw(const AARectangle& rect, const Color& color, bool fill = false, const Color& fillColor = Color::White());
 	void Draw(const Circle& circle, const Color& color, bool fill = false, const Color& fillColor = Color::White());
-	void Draw(const ChessPiece& piece, const Color& color, bool fill = false, const Color & fillColor = Color::White());
+	void Draw(const std::shared_ptr<ChessPiece>& piece, const Color& color, bool fill = false, const Color & fillColor = Color::White());
 
 private:
 

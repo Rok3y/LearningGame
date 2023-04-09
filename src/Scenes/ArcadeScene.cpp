@@ -11,12 +11,28 @@
 #include "Pawn.h"
 
 ArcadeScene::ArcadeScene()
+	:mBoard(nullptr)
 {
 
 }
 
 void ArcadeScene::Init()
 {
+	mBoard = std::make_unique<ChessBoard>();
+	mBoard->Init();
+
+	//uint32_t rectWidth = mWidth / 8;
+	//uint32_t rectHeight = mHeight / 8;
+	
+	//for (int i = 0; i < 8; i++)
+	//{
+	//	for (int j = 0; j < 8; j++)
+	//	{
+	//		//mRectangles.push_back(AARectangle(Vec2D((mTopLeftStartingPosition.GetX() + rectWidth * i), (mTopLeftStartingPosition.GetY() + rectHeight * j)), rectWidth, rectHeight));
+	//		mRectangles.emplace_back(AARectangle(Vec2D(i, j), 0, 0));
+	//	}
+	//}
+
 	ButtonAction action;
 	action.key = GameController::ActionKey();
 	action.action = [](uint32_t dt, InputState state)
@@ -65,13 +81,14 @@ void ArcadeScene::Draw(Screen& theScreen)
 	//theScreen.Draw(circle, Color(0, 255, 0, 150), true, Color(0, 255, 0, 150));
 
 	// Move creation out of draw method
-	ChessBoard board = { theScreen.Width(), theScreen.Height()};
+	std::vector<AARectangle> boardPositions = mBoard->GetBoardRectangles();
 
 	int counter = 0;
 	int fillPolly = false;
-	for (const AARectangle& rect : board.GetBoardRectangles())
+	for (const AARectangle& rect : boardPositions)
 	{
-		theScreen.Draw(rect, Color::White(), fillPolly, Color::White());
+		theScreen.Draw(rect.GetCenterPoint(), Color::Red());
+		theScreen.Draw(rect, Color::Blue(), fillPolly, Color::White());
 		counter++;
 
 		if (counter % 8 == 0)
@@ -80,11 +97,20 @@ void ArcadeScene::Draw(Screen& theScreen)
 		}
 
 		fillPolly = ~fillPolly;
+
 	}
 
-	board.Init();
-	theScreen.Draw((*board.GetPieces().at(0)), Color::Magenta(), true, Color::Cyan());
-	
+	auto pieces = mBoard->GetPieces();
+	if (pieces.empty())
+	{
+		return;
+	}
+	std::shared_ptr<ChessPiece> piece1 = pieces[0][0];
+	theScreen.Draw(piece1, Color::Magenta(), true, Color::Cyan());
+
+	Vec2D piecePoint = piece1->GetCenterPoint();
+	theScreen.Draw(piecePoint, Color::Red());
+
 }
 
 const std::string& ArcadeScene::GetSceneName() const

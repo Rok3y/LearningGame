@@ -33,6 +33,15 @@ set(ARCADE_LIB_SRCS
 	Input/GameController.cpp
 	Input/InputController.h
 	Input/InputController.cpp
+	Games/Game.h
+	Games/BreakOut/BreakOut.h
+	Games/BreakOut/BreakOut.cpp
+	Games/BreakOut/Excluder.h
+	Games/BreakOut/BoundaryEdge.h
+	Scenes/GameScene.h
+	Scenes/GameScene.cpp
+	utils/FileCommandLoader.h
+	utils/FileCommandLoader.cpp
 )
 
 include_directories(utils)
@@ -42,9 +51,10 @@ include_directories(App)
 include_directories(Scenes)
 include_directories(Input)
 include_directories(Games)
+include_directories(Games/BreakOut)
 file(GLOB SOURCES ${ARCADE_LIB_SRCS})
 	
-add_executable(${PROJECT_NAME} main.cpp ${SOURCES} "Games/Game.h" "Scenes/GameScene.h" "Scenes/GameScene.cpp" "utils/FileCommandLoader.h" "utils/FileCommandLoader.cpp")
+add_executable(${PROJECT_NAME} main.cpp ${SOURCES} "Games/BreakOut/Excluder.cpp")
 
 link_libraries(SDL2::SDL2 ${SDL2_LIBRARIES})
 target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARIES})

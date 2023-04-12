@@ -14,4 +14,6 @@ bool IsLessThanOrEqual(float x, float y);
 
 float DegToRad(int degree);
 
+float MillisecondsToSeconds(unsigned int milliseconds);
+
 #endif /* UTILS_UTILS_H_ */

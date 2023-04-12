@@ -54,7 +54,7 @@ include_directories(Games)
 include_directories(Games/BreakOut)
 file(GLOB SOURCES ${ARCADE_LIB_SRCS})
 	
-add_executable(${PROJECT_NAME} main.cpp ${SOURCES} "Games/BreakOut/Excluder.cpp")
+add_executable(${PROJECT_NAME} main.cpp ${SOURCES} "Games/BreakOut/Excluder.cpp" "Games/BreakOut/Paddle.cpp")
 
 link_libraries(SDL2::SDL2 ${SDL2_LIBRARIES})
 target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARIES})

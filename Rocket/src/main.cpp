@@ -7,9 +7,9 @@
 #include <memory>
 #include <stdint.h>
 
-const int SCREEN_WIDTH = 224;
-const int SCREEN_HEIGHT = 288;
-const int MAGNIFICATION = 3;
+const int SCREEN_WIDTH = 640;
+const int SCREEN_HEIGHT = 640;
+const int MAGNIFICATION = 1;
 
 
 

@@ -16,10 +16,12 @@ public:
 	virtual void SetPosition(const Vec2D& pos) = 0;
 	virtual void SetVelocity(const Vec2D& vel) = 0;
 	virtual void SetAcceleration(const Vec2D& acc) = 0;
+	virtual void SetMass(float mass) = 0;
 
 	inline const Vec2D& GetPosition() const { return mPosition; }
 	inline const Vec2D& GetVelocity() const { return mVelocity; }
 	inline const Vec2D& GetAcceleration() const { return mAcceleration; }
+	inline const float GetMass() const { return mMass; }
 
 
 	// Calculate new direction vector as mVelocity
@@ -33,6 +35,7 @@ protected:
 	Vec2D mPosition;
 	Vec2D mVelocity; // For now velocity and direction properties are combined
 	Vec2D mAcceleration;
+	float mMass;
 };
 
 #endif /* GAME_GAMEOBJECT_H_ */

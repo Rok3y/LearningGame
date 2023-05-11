@@ -2,7 +2,7 @@
 #define SCENES_ARCADESCENE_H_
 
 #include "Scene.h"
-#include "Game/Rect.h"
+#include "Game/Particle.h"
 #include "AARectangle.h"
 #include <memory>
 
@@ -20,7 +20,9 @@ public:
 private:
 	uint32_t mWidth, mHeight;
 	AARectangle mBoundary;
-	Rect mRect;
+	Particle mRocket;
+	Particle mHeavyRocket;
+	Vec2D mGravity;
 	//std::unique_ptr<Scene> GetScene(eGame game);
 };
 

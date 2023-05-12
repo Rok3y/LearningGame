@@ -7,6 +7,12 @@ class Screen;
 
 class BoxShape : GameObject
 {
+	BoxShape(float w, float h, float m)
+		:mWidth(w), mHeight(h), mMass(m), mMomentOfInertia(0)
+	{
+		mMomentOfInertia = CalculateBoxInertia();
+	}
+
 protected:
 	inline void CalculateBoxInertia() { mMomentOfInertia = mMass * (mWidth * mWidth + mHeight * mHeight) / 12; }
 

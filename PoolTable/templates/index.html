@@ -32,36 +32,6 @@
         });
     </script>
     <script>
-        // JavaScript function to update dropdowns
-        function updatePlayer2Dropdown() {
-            var player1Select = document.getElementById('player1');
-            var player2Select = document.getElementById('player2');
-            var WinnerSelect = document.getElementById('Winner');
-            var player1Value = player1Select.value;
-            var player2Value = player2Select.value;
-
-            // Clear player2 and winner options
-            player2Select.innerHTML = '';
-            WinnerSelect.innerHTML = '';
-            if(player1Value === 'Select player') {
-                player2Select.innerHTML = '';
-                return;
-            }
-
-            for (var i = 0; i < player1Select.options.length; i++) {
-                var player = player1Select.options[i].value;
-                if (player !== player1Value && player !== 'Select player') {
-                    var option = new Option(player, player);
-                    player2Select.options.add(option);
-                }
-            }
-
-            // Attempt to re-select the previously selected value if it's not the same as player1
-            if (player2Value !== player1Value) {
-                player2Select.value = player2Value;
-            }
-        }
-
         function updateWinnersDropdown()
         {
             var player1Select = document.getElementById('player1');

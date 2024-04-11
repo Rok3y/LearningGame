@@ -4,9 +4,14 @@ import pandas as pd
 import asyncio
 import aiohttp
 from bs4 import BeautifulSoup
+import logging
+
+logging.basicConfig(level=logging.INFO,
+                    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+                    datefmt='%Y-%m-%d %H:%M:%S')
 
 def get_all_tickers() -> pd.Series:
-    print(f"Scraping all tickers...")
+    logging.info(f"Scraping all tickers...")
     dow_list = si.tickers_dow()
     #ftse100_list = si.tickers_ftse100() # error
     #ftse250_list = si.tickers_ftse250() # error
@@ -19,7 +24,7 @@ def get_all_tickers() -> pd.Series:
 
     # combine all lists and do not allow duplicates
     all_tickers = list(set(dow_list + nasdaq_list + nifty50_list + niftybank_list + other_list + sp500_list + ibovespa_list))
-    print(f"Scrapped {len(all_tickers)} tickers")
+    logging.info(f"Scrapped {len(all_tickers)} tickers")
     
     # convert to pandas series
     all_tickers = pd.Series(all_tickers)
@@ -41,52 +46,15 @@ def get_top_100_tickers() -> pd.Series:
     ])
     
 
-async def get_stock_summary(ticker: str) -> pd.DataFrame:
-    ''' Fetch stock summary '''
-    print(f"Scraping {ticker} summary...")
-    info = yf.Ticker(ticker)
-    return pd.DataFrame(info.info, index=[ticker])
-
-async def get_all_stocks_summary(tickers: pd.Series) -> pd.DataFrame:
-    ''' Fetch stocks summaries '''
-    tasks = []
-    for ticker in tickers: #get_top_20_tickers(): 
-        tasks.append(asyncio.create_task(get_stock_summary(ticker))) # create schedules all tasks to run concurrently
-        #tasks.append(asyncio.create_task(get_stock_profile(ticker))) # create schedules all tasks to run concurrently
-    
-    # Await the completion of all get summary tasks
-    results_summary = await asyncio.gather(*tasks)
-    
-    # 
-    
-    # Filter results to get only successful responses
-    filtered_results = {ticker: dict_res for ticker, dict_res, response_code in results_summary if response_code == 200}
-    
-    return filtered_results
-
-# start_time = datetime.datetime.now()
-
-# stocks = asyncio.run(fetch_stocks())
-# count = 0
-
-
-# # for ticker in get_all_tickers()[:50]:
-# #     count += 1
-
-# #     if ticker != '':
-# #         stock_summary, response_code = get_stock_summary(ticker)
-# #         if response_code == 200 and len(stock_summary.keys()) > 0:
-# #             stocks[ticker] = stock_summary
-# #             print(f"{count} - {ticker}")
-# #         else:
-# #             print(f"Error: {ticker} - {response_code} - No data found")
-
-# for stock in stocks:
-#     if "Forward Dividend & Yield" in stocks[stock]:
-#         print(f'{stock}: {stocks[stock]["Forward Dividend & Yield"]}')
-#     else:
-#         print(f'{stock}: No dividend')
-
-# end_time = datetime.datetime.now()
-
-# print(f"Time taken: {end_time - start_time}")
+def get_stock_summary(ticker: str) -> pd.DataFrame:
+    ''' 
+    Fetch stock summary
+    @param ticker: str
+    @return: pd.DataFrame
+    '''
+    logging.debug(f"Scraping {ticker} summary...")
+    yf_ticker = yf.Ticker(ticker)
+    df_ticker = pd.DataFrame.from_dict(yf_ticker.info, orient='index')
+    df_ticker.reset_index(inplace=True)
+    df_ticker.columns = ['Attribute', 'Value']
+    return df_ticker

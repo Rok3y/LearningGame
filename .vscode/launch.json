@@ -8,7 +8,7 @@
             "name": "stocks",
             "type": "debugpy",
             "request": "launch",
-            "program": "stock/stocks.py",
+            "program": "stock/stocks_data_service.py",
             "console": "integratedTerminal"
         }
     ]

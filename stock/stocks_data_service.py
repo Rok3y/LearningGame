@@ -2,13 +2,16 @@ import yfinance as yf
 import database as db
 import scrape as sc 
 import pandas as pd
+import asyncio
+import aiohttp
 import click
 import logging
+from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime, timedelta
 
 logging.basicConfig(level=logging.INFO,
-                    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-                    datefmt='%Y-%m-%d %H:%M:%S')
+                    format='%(asctime)s - %(module)-20s - %(funcName)-30s - %(levelname)s - %(message)s',
+                    datefmt='%H:%M:%S')
 
 # An example of using yFinance to get stock data
 # https://algotrading101.com/learn/yfinance-guide/
@@ -64,17 +67,17 @@ def update_or_init_collection(ticker: str, exclude_attrs: list = ['companyOffice
     yf_ticker = yf.Ticker(ticker)
     new_collection = yf_ticker.info
         
-    # simulate changes
-    new_collection['marketCap'] = 2000000000000
-    new_collection['forwardPE'] = 30
-    new_collection['dividendYield'] = 0.01
-    new_collection['regularMarketPrice'] = 150
-    new_collection['regularMarketVolume'] = 50000000
+    # # simulate changes
+    # new_collection['marketCap'] = 2000000000000
+    # new_collection['forwardPE'] = 30
+    # new_collection['dividendYield'] = 0.01
+    # new_collection['regularMarketPrice'] = 150
+    # new_collection['regularMarketVolume'] = 50000000
     
     # Check if the collection exists
     if company_dict is None or len(company_dict) == 0:
         new_document = True
-        logging.info(f'Company document ({ticker}) is empty, creating new document')
+        logging.debug(f'Company document ({ticker}) is empty, creating new document')
         company_dict = {
         'ticker': ticker,
         'info': {},
@@ -94,7 +97,7 @@ def update_or_init_collection(ticker: str, exclude_attrs: list = ['companyOffice
             # Check if new attribute value is different from the current one
             if attr_value != company_dict['info'][attr_name]['Values'][-1]:
                 changes += 1
-                logging.info(f"{attr_name}: old value {company_dict['info'][attr_name]["Values"][-1]} --> new value: {attr_value}")
+                logging.debug(f"{attr_name}: old value {company_dict['info'][attr_name]["Values"][-1]} --> new value: {attr_value}")
                 company_dict['info'][attr_name]['Dates'].append(current_date)
                 company_dict['info'][attr_name]['Values'].append(attr_value)
         else:
@@ -122,7 +125,7 @@ def update_or_init_collection(ticker: str, exclude_attrs: list = ['companyOffice
     if new_document:
         # Add new collection
         db.add_company_document(company_dict)
-        logging.info("Added new company document({ticker}) to the database")
+        logging.info(f"Added new company document({ticker}) to the database")
         return company_dict
     elif changes > 0:
         # Update current collection
@@ -139,26 +142,28 @@ def update_or_init_collection(ticker: str, exclude_attrs: list = ['companyOffice
 @click.option('--update-tickers', is_flag=True, help="Update tickers in database")
 def main(update_tickers: bool):
     
+    start_time = datetime.now()
     if update_tickers:
         update_ticker_list()
         
     # Get all tickers
     # tickers = db.get_tickers()
-    tickers = sc.get_top_100_tickers()[:1]
+    tickers = sc.get_top_100_tickers()#[:1]
     
     ticker_counter = 0
     # Get ticker data from database and check for new data
     for ticker in tickers:        
         ticker_collection = update_or_init_collection(ticker)
         ticker_counter += 1
-        print(f"{ticker_counter}/{len(tickers)} Ticker: {ticker} done! ")
-        # Add updated stock data to database
+        logging.info(f"{ticker_counter}/{len(tickers)} Ticker: {ticker} done! ")
     
+    # with ThreadPoolExecutor(max_workers=32) as executor:
+    #     executor.map(update_or_init_collection, tickers)
     
+    end_time = datetime.now()
+    logging.info(f"Time taken: {end_time - start_time}s")
     
-    # Add stock summary to database
-    
-    print("Done!")
+    logging.info("Done!")
 
 if __name__ == '__main__':    
     main()

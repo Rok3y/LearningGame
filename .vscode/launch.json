@@ -10,6 +10,13 @@
             "request": "launch",
             "program": "stock/stocks_data_service.py",
             "console": "integratedTerminal"
+        },
+        {
+            "name": "test stocks",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "stock/test_stock_data_serice.py",
+            "console": "integratedTerminal"
         }
     ]
 }

@@ -6,10 +6,6 @@ import aiohttp
 from bs4 import BeautifulSoup
 import logging
 
-logging.basicConfig(level=logging.INFO,
-                    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-                    datefmt='%Y-%m-%d %H:%M:%S')
-
 def get_all_tickers() -> pd.Series:
     logging.info(f"Scraping all tickers...")
     dow_list = si.tickers_dow()

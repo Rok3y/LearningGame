@@ -4,10 +4,11 @@ import pandas as pd
 import asyncio
 import aiohttp
 from bs4 import BeautifulSoup
-import logging
+from logging_config import logger
+#logger = logging.getLogger('StocksLogger')
 
 def get_all_tickers() -> pd.Series:
-    logging.info(f"Scraping all tickers...")
+    logger.info(f"Scraping all tickers...")
     dow_list = si.tickers_dow()
     #ftse100_list = si.tickers_ftse100() # error
     #ftse250_list = si.tickers_ftse250() # error
@@ -20,7 +21,7 @@ def get_all_tickers() -> pd.Series:
 
     # combine all lists and do not allow duplicates
     all_tickers = list(set(dow_list + nasdaq_list + nifty50_list + niftybank_list + other_list + sp500_list + ibovespa_list))
-    logging.info(f"Scrapped {len(all_tickers)} tickers")
+    logger.info(f"Scrapped {len(all_tickers)} tickers")
     
     # convert to pandas series
     all_tickers = pd.Series(all_tickers)
@@ -48,7 +49,7 @@ def get_stock_summary(ticker: str) -> pd.DataFrame:
     @param ticker: str
     @return: pd.DataFrame
     '''
-    logging.debug(f"Scraping {ticker} summary...")
+    logger.debug(f"Scraping {ticker} summary...")
     yf_ticker = yf.Ticker(ticker)
     df_ticker = pd.DataFrame.from_dict(yf_ticker.info, orient='index')
     df_ticker.reset_index(inplace=True)

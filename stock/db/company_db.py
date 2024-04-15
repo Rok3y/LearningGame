@@ -46,3 +46,23 @@ def update_company_document(document: dict):
         logging.error(e)
     
     logging.debug(f'Company document ({ticker}) updated in database.')
+    
+def add_or_update_company_document(document: dict):
+    ticker = document["ticker"]
+    logging.debug(f'Storing company document ({ticker}) in database.')
+    try:
+        client = dbc.get_db_client()
+        db = client['stock']
+        collection = db[COMPANY_COLLECTION]
+        
+        result = collection.update_one(
+            {'ticker': ticker},
+            {'$set': document},
+            upsert=True
+        )
+    except Exception as e:
+        logging.error(f'Error storing company document ({ticker}) in database.')
+        logging.error(e)
+    
+    logging.debug(f'Company document ({ticker}) stored in database.')
+    return result

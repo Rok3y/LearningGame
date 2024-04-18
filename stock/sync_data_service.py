@@ -57,7 +57,7 @@ def update_or_init_collection(ticker: str, exclude_attrs: list = ['companyOffice
         return
     
     # Check if the collection exists
-    if company_dict is None or len(company_dict) == 0:
+    if company_dict is None or len(company_dict.keys()) == 0:
         logger.debug(f'Company document ({ticker}) is empty, creating new document')
         company_dict = {
         'ticker': ticker,
@@ -106,12 +106,17 @@ def update_or_init_collection(ticker: str, exclude_attrs: list = ['companyOffice
         company_dict['history'].extend(history_data_list)
     
     # Add or update collection in database
-    result = db.add_or_update_company_document(company_dict)
-    # logging.info(f"Changes made to company document ({ticker}) : {changes}")
-    if result.upserted_id is not None:
-        logger.info(f"Upserted ID: {result.upserted_id}")
-    else:
-        logger.info(f"No changes made to company document ({ticker})")
+    #result = db.add_or_update_company_document(company_dict)
+    result = db.add_or_update_company_document_bulk(company_dict)
+    if type(result) is str:
+        #logger.error(f"Error occurred while updating company document ({ticker})")
+        logger.info(result)
+        # return None
+    if result is not None and type(result) is not str:
+        if result.upserted_count is not None:
+            logger.info(f"Upserted cout: {result.upserted_count}")
+    # else:
+    #     logger.info(f"No changes made to company document ({ticker})")
         
     ticker_processed_succesfully.append(ticker)
-    return company_dict
+    # return company_dict

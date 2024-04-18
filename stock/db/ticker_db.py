@@ -7,7 +7,7 @@ TICKER_COLLECTION = 'tickers'
 
 def get_tickers() -> pd.Series:
     logger.info('Getting tickers from database.')
-    client = dbc.get_db_client()
+    client = dbc.MongoDBClient.get_client()
     db = client[dbc.DB_NAME]
     collection = db[TICKER_COLLECTION]
     
@@ -27,7 +27,7 @@ def get_tickers() -> pd.Series:
 def add_tickers_symbol(tickers: dict):
     logger.debug(f'Storing ticker symbols ({len(tickers)}) in database.')
     try:
-        client = dbc.get_db_client()
+        client = dbc.MongoDBClient.get_client()
         db = client[dbc.DB_NAME]
         collection = db[TICKER_COLLECTION]
         

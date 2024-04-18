@@ -53,7 +53,7 @@ def main(update_tickers: bool):
     ticker_counter = 0
     # Get ticker data from database and check for new data
     for ticker in tickers:        
-        _ = sds.update_or_init_collection(ticker)
+        sds.update_or_init_collection(ticker)
         ticker_counter += 1
         logger.info(f"{ticker_counter}/{len(tickers)} Ticker: {ticker} done! ")
     

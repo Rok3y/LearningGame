@@ -20,3 +20,6 @@ def update_company_document(document: dict):
 
 def add_or_update_company_document(document: dict):
     return cdb.add_or_update_company_document(document)
+
+def add_or_update_company_document_bulk(document: dict):
+    return cdb.add_or_update_company_document_bulk(document)

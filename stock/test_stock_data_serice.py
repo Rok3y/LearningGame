@@ -6,7 +6,7 @@ import json
 # test if database is properly populed
 # get all documents from companies collection and check you attribute values if it exists
 
-client = dbc.get_db_client()
+client = dbc.MongoDBClient.get_client()
 db = client[dbc.DB_NAME]
 company_collection = db['companies']
 

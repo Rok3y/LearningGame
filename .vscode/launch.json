@@ -10,7 +10,7 @@
             "request": "launch",
             "program": "stock/stocks_data_service.py",
             "console": "integratedTerminal",
-            "args": ["--update-tickers"]
+            // "args": ["--update-tickers"]
         },
         {
             "name": "test stocks",

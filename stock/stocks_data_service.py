@@ -43,8 +43,8 @@ def main(update_tickers: bool):
         update_ticker_list()
         
     # Get all tickers
-    #tickers = db.get_tickers()
-    tickers = sc.get_top_100_tickers()[:10]
+    tickers = db.get_tickers()
+    #tickers = sc.get_top_100_tickers()[:10]
     
     if tickers is None or len(tickers) == 0:
         logger.error("No tickers found in database.")

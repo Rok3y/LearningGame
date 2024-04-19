@@ -11,14 +11,14 @@ def get_company_document(ticker: str):
     logger.debug(f'Get company document ({ticker}) from database.')
     
     try:
-        collection = collection.find_one({'ticker': ticker})
+        document = collection.find_one({'ticker': ticker})
         if collection is None:
             logger.warning(f'Company document ({ticker}) not found in database.')
     except Exception as e:
         logger.error(f'Error getting company document ({ticker}) from database.')
         logger.error(e)
     
-    return collection
+    return document
 
 def add_company_document(document: dict):
     ticker = document["ticker"]
@@ -77,11 +77,11 @@ def add_or_update_company_document_bulk(document: dict, update_remaining: bool =
             operations.clear()
             return result
         except Exception as e:
-            logger.error(f'Error storing company document ({ticker}) in database.')
+            logger.error(f'Error storing company documents in database.')
             logger.error(e)
             return None
     
-    return f'Ticker ({ticker}) added to bulk operations list ({len(operations)} / {BULK_SIZE})...'
+    return f'Tickers added to bulk operations list ({len(operations)} / {BULK_SIZE})...'
     
         
     

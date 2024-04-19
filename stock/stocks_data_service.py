@@ -38,6 +38,7 @@ def update_ticker_list():
 @click.option('--update-tickers', is_flag=True, help="Update tickers in database")
 def main(update_tickers: bool):
     
+    logger.info("Starting stock update...")
     start_time = datetime.now()
     if update_tickers:
         update_ticker_list()

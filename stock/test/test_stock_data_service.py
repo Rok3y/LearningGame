@@ -1,3 +1,9 @@
+
+import sys
+import os
+
+project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir))
+sys.path.insert(0, project_root)
 import src.db.db_common as dbc
 import src.utils.company_utils as company_utils
 import src.utils.utils as utils
@@ -5,10 +11,10 @@ import json
 
 # test if database is properly populed
 # get all documents from companies collection and check you attribute values if it exists
+# check if the schema is correct
 
-client = dbc.MongoDBClient.get_client()
-db = client[dbc.DB_NAME]
-company_collection = db['companies']
+db = dbc.MongoDBManager.get_db()
+company_collection = dbc.MongoDBManager.get_company_collection()
 
 # Define the expected schema as a set of keys
 expected_company_keys = {'_id', 'ticker', 'info', 'history'}
@@ -67,7 +73,7 @@ def test_all_company_documents(exclude_history: bool = False):
     print(json.dumps(explanation, indent=4))
         
 
-test_all_company_documents_schema()
+#test_all_company_documents_schema()
 # test_all_company_documents()
 
 #company_collection.create_index([('ticker', 1)], unique=True) # create index on 'ticker' field

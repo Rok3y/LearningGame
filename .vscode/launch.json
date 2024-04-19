@@ -16,7 +16,7 @@
             "name": "test stocks",
             "type": "debugpy",
             "request": "launch",
-            "program": "stock/test_stock_data_serice.py",
+            "program": "stock/test/test_stock_data_service.py",
             "console": "integratedTerminal"
         }
         ,

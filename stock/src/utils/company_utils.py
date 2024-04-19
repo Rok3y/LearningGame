@@ -1,4 +1,4 @@
-import stock.src.utils.utils as utils
+import src.utils.utils as utils
 import bson
 
 def get_latest_info(company: dict) -> tuple[dict, int]:

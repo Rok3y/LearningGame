@@ -1,9 +1,9 @@
 import yfinance as yf
+import pandas as pd
+from datetime import datetime, timedelta
 import src.db.database as db
 import src.scrape as sc 
-import pandas as pd
 from src.logging_config import logger
-from datetime import datetime, timedelta
 
 #logger = logging.getLogger('StocksLogger')
 ticker_processed_succesfully = []
@@ -87,17 +87,21 @@ def update_or_init_collection(ticker: str, exclude_attrs: list = ['companyOffice
             }
     
     # Check for changes in the history collection
-    history_data_dict = None
-    if company_dict['history'] is None or len(company_dict['history']) == 0:
-        history_data_dict = yf_ticker.history(period="max", interval="1d").to_dict()
-    else:
-        # Get last date in the history collection and get new data from that date
-        last_date = datetime.strptime(company_dict['history'][-1]['Date'], '%Y-%m-%d %H:%M:%S')
-        last_date = last_date + timedelta(days=1) # increment by one day
-        if last_date.date() <= datetime.now().date():
-            history_data_dict = yf_ticker.history(start=last_date.strftime('%Y-%m-%d'), interval="1d").to_dict()
+    try:
+        history_data_dict = None
+        if company_dict['history'] is None or len(company_dict['history']) == 0:
+            history_data_dict = yf_ticker.history(period="max", interval="1d").to_dict()
         else:
-            logger.info(f"History data for {ticker} is up to date.")
+            # Get last date in the history collection and get new data from that date
+            last_date = datetime.strptime(company_dict['history'][-1]['Date'], '%Y-%m-%d %H:%M:%S')
+            last_date = last_date + timedelta(days=1) # increment by one day
+            if last_date.date() <= datetime.now().date():
+                history_data_dict = yf_ticker.history(start=last_date.strftime('%Y-%m-%d'), interval="1d").to_dict()
+            else:
+                logger.info(f"History data for {ticker} is up to date.")
+    except Exception as e:
+        logger.error(f"Error occurred while fetching history data for {ticker}: {e}")
+        history_data_dict = None
         
     # Check if history data is available
     if history_data_dict is not None and len(history_data_dict) > 0:

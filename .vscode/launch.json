@@ -9,13 +9,22 @@
             "type": "debugpy",
             "request": "launch",
             "program": "stock/stocks_data_service.py",
-            "console": "integratedTerminal"
+            "console": "integratedTerminal",
+            "args": ["--update-tickers"]
         },
         {
             "name": "test stocks",
             "type": "debugpy",
             "request": "launch",
             "program": "stock/test_stock_data_serice.py",
+            "console": "integratedTerminal"
+        }
+        ,
+        {
+            "name": "transfer data",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "stock/test/transfer_data.py",
             "console": "integratedTerminal"
         }
     ]

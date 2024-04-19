@@ -1,22 +1,18 @@
-import scrape as sc
 import pandas as pd
-from logging_config import logger
-import db.db_common as dbc
+from src.logging_config import logger
+import src.db.db_common as dbc
 
-TICKER_COLLECTION = 'tickers'
 
 def get_tickers() -> pd.Series:
     logger.info('Getting tickers from database.')
-    client = dbc.MongoDBClient.get_client()
-    db = client[dbc.DB_NAME]
-    collection = db[TICKER_COLLECTION]
+    collection = dbc.MongoDBManager.get_ticker_collection()
     
     # Retrieve ticker document
     tickers_doc = collection.find_one({})
         
     # Check if there is any data in the database
     if tickers_doc is None:
-        logger.warning(f"Cannot find any {TICKER_COLLECTION} documents.")
+        logger.warning(f"Cannot find any {dbc.TICKER_COLLECTION} documents.")
         return None
     
     # Convert to pandas Series
@@ -24,18 +20,16 @@ def get_tickers() -> pd.Series:
     return pd.Series(tickers_doc["tickers"])
 
 
-def add_tickers_symbol(tickers: dict):
+def add_tickers_symbol(tickers: list):
     logger.debug(f'Storing ticker symbols ({len(tickers)}) in database.')
     try:
-        client = dbc.MongoDBClient.get_client()
-        db = client[dbc.DB_NAME]
-        collection = db[TICKER_COLLECTION]
+        collection = dbc.MongoDBManager.get_ticker_collection()
         
         # Convert the tickers dictionary to a list of ticker symbols
-        tickers_list = list(tickers.values())
+        #tickers_list = list(tickers.values())
 
         # Create a document with a list of tickers
-        document = {TICKER_COLLECTION: tickers_list}        
+        document = {dbc.TICKER_COLLECTION: tickers}
         collection.insert_one(document)
     except Exception as e:
         logger.error(f'Error storing ticker ({len(tickers)}) document in database.')

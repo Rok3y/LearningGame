@@ -1,5 +1,5 @@
-import db.company_db as cdb
-import db.ticker_db as tdb
+import src.db.company_db as cdb
+import src.db.ticker_db as tdb
 
 # Ticker database functions
 def get_tickers():
@@ -21,5 +21,5 @@ def update_company_document(document: dict):
 def add_or_update_company_document(document: dict):
     return cdb.add_or_update_company_document(document)
 
-def add_or_update_company_document_bulk(document: dict):
-    return cdb.add_or_update_company_document_bulk(document)
+def add_or_update_company_document_bulk(document: dict, update_remaining: bool = False):
+    return cdb.add_or_update_company_document_bulk(document, update_remaining)

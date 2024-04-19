@@ -50,3 +50,8 @@ Next you can create scheduled job:
 * Open the crontab editor:
 * 0 3 * * * /path/to/backup_and_upload.sh (Schedule your script to run at your preferred time, for example, daily at 3 AM:)
 * save and exit the editor
+
+## Troubleshooting
+
+If you cannot create/save file in vscode remote ssh then execute this on VM
+> sudo chown -R $USER <folderPath>

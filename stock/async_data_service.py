@@ -1,12 +1,18 @@
 import yfinance as yf
-import database as db
-import scrape as sc 
+import stock.db.database as db
+import stock.src.scrape as sc 
 import pandas as pd
 import logging
 from queue import Queue
 from datetime import datetime, timedelta
 from time import sleep
 logger = logging.getLogger('StocksLogger')
+
+
+########################################################################################
+# Now when doing bulk inserts it can take a lot of time when approaching 10000 documents
+# In this case we could utilise process queue to separate the scrape and db operations
+########################################################################################
 
 process_db_queue = Queue()
 process_dl_queue = Queue()

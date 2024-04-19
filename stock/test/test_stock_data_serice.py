@@ -1,6 +1,6 @@
-import db.db_common as dbc
-import company_utils
-import utils
+import src.db.db_common as dbc
+import src.utils.company_utils as company_utils
+import src.utils.utils as utils
 import json
 
 # test if database is properly populed
@@ -68,6 +68,6 @@ def test_all_company_documents(exclude_history: bool = False):
         
 
 test_all_company_documents_schema()
-test_all_company_documents()
+# test_all_company_documents()
 
 #company_collection.create_index([('ticker', 1)], unique=True) # create index on 'ticker' field

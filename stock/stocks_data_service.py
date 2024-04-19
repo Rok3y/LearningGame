@@ -1,6 +1,6 @@
 import yfinance as yf
-import database as db
-import scrape as sc 
+import src.db.database as db
+import src.scrape as sc 
 import pandas as pd
 import asyncio
 import aiohttp
@@ -10,8 +10,8 @@ from threading import Thread
 from queue import Queue
 from datetime import datetime, timedelta
 from time import sleep
-import sync_data_service as sds
-from logging_config import logger
+import src.sync_data_service as sds
+from src.logging_config import logger
 
 # An example of using yFinance to get stock data
 # https://algotrading101.com/learn/yfinance-guide/
@@ -31,7 +31,7 @@ def update_ticker_list():
         logger.info("No new tickers found.")
         return
     
-    db.add_tickers_symbol(new_tickers.to_dict())
+    db.add_tickers_symbol(new_tickers.to_list())
     logger.info(f"Updated {len(new_tickers)} tickers.")
     
 @click.command()
@@ -43,8 +43,8 @@ def main(update_tickers: bool):
         update_ticker_list()
         
     # Get all tickers
-    tickers = db.get_tickers()
-    #tickers = sc.get_top_100_tickers()[:10]
+    #tickers = db.get_tickers()
+    tickers = sc.get_top_100_tickers()[:10]
     
     if tickers is None or len(tickers) == 0:
         logger.error("No tickers found in database.")
@@ -56,6 +56,9 @@ def main(update_tickers: bool):
         sds.update_or_init_collection(ticker)
         ticker_counter += 1
         logger.info(f"{ticker_counter}/{len(tickers)} Ticker: {ticker} done! ")
+        
+    # Since we wait for at least 100 documents before we bulk insert, we need to check if we have any operations left and insert them
+    db.add_or_update_company_document_bulk(document = None, update_remaining=True)
     
     # with ThreadPoolExecutor(max_workers=32) as executor:
     #     executor.map(update_or_init_collection, tickers)

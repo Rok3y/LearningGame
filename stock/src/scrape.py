@@ -4,7 +4,7 @@ import pandas as pd
 import asyncio
 import aiohttp
 from bs4 import BeautifulSoup
-from logging_config import logger
+from src.logging_config import logger
 #logger = logging.getLogger('StocksLogger')
 
 def get_all_tickers() -> pd.Series:

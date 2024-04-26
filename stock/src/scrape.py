@@ -1,26 +1,24 @@
-import yahoo_fin.stock_info as si
+import src.stock_scrape.scrape_ticker as st
 import yfinance as yf
 import pandas as pd
-import asyncio
-import aiohttp
 from bs4 import BeautifulSoup
 from src.logging_config import logger
 #logger = logging.getLogger('StocksLogger')
 
 def get_all_tickers() -> pd.Series:
     logger.info(f"Scraping all tickers...")
-    dow_list = si.tickers_dow()
-    #ftse100_list = si.tickers_ftse100() # error
-    #ftse250_list = si.tickers_ftse250() # error
-    ibovespa_list = si.tickers_ibovespa()
-    nasdaq_list = si.tickers_nasdaq() # 4954
-    nifty50_list = si.tickers_nifty50()
-    niftybank_list = si.tickers_niftybank()
-    other_list = si.tickers_other()
-    sp500_list = si.tickers_sp500()
+    dow_list = st.tickers_dow()
+    ftse100_list = st.tickers_ftse100() # error
+    ftse250_list = st.tickers_ftse250() # error
+    ibovespa_list = st.tickers_ibovespa()
+    nasdaq_list = st.tickers_nasdaq() # 4954
+    nifty50_list = st.tickers_nifty50()
+    niftybank_list = st.tickers_niftybank()
+    other_list = st.tickers_other()
+    sp500_list = st.tickers_sp500()
 
     # combine all lists and do not allow duplicates
-    all_tickers = list(set(dow_list + nasdaq_list + nifty50_list + niftybank_list + other_list + sp500_list + ibovespa_list))
+    all_tickers = list(set(dow_list + ftse100_list + ftse250_list + nasdaq_list + nifty50_list + niftybank_list + other_list + sp500_list + ibovespa_list))
     logger.info(f"Scrapped {len(all_tickers)} tickers")
     
     # convert to pandas series

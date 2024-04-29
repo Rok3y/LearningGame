@@ -1,8 +1,8 @@
 # Configuration settings for your project
 
 # Database settings
-#DB_NAME = 'prod_db'
-DB_NAME = 'test_db'
+DB_NAME = 'prod_db'
+#DB_NAME = 'test_db'
 DB_CONNECTION_STRING = 'mongodb://localhost:27017/'
 
 # Logging settings

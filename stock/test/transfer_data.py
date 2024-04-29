@@ -54,7 +54,7 @@ def transfer_documents(source_db_name='prod_db', target_db_name='test_db', limit
     if len(tickers) > 0:
         document = {COLLECTION_TICKER: tickers}
         result = target_tickers_collection.insert_one(document)
-        print(f"Tickers inserted.")
+        print("Tickers inserted.")
     
         
     end = datetime.datetime.now()

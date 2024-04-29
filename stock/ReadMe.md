@@ -55,3 +55,14 @@ Next you can create scheduled job:
 
 If you cannot create/save file in vscode remote ssh then execute this on VM
 > sudo chown -R $USER <folderPath>
+
+
+# Lint
+
+Run:
+> ruff check 
+This checks all code if run in code/Learnign/stock/ location
+
+Run and fix:
+> ruff check --fix
+This fixes all fixable errors

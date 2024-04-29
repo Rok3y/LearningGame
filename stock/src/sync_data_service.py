@@ -1,8 +1,6 @@
 import yfinance as yf
-import pandas as pd
 from datetime import datetime, timedelta
 import src.db.database as db
-import src.scrape as sc 
 from src.logging_config import logger
 
 #logger = logging.getLogger('StocksLogger')
@@ -118,11 +116,11 @@ def update_or_init_collection(ticker: str, exclude_attrs: list = ['companyOffice
     # Add or update collection in database
     #result = db.add_or_update_company_document(company_dict)
     result = db.add_or_update_company_document_bulk(company_dict)
-    if type(result) is str:
+    if isinstance(result, str):
         #logger.error(f"Error occurred while updating company document ({ticker})")
         logger.info(result)
         # return None
-    if result is not None and type(result) is not str:
+    if result is not None and not isinstance(result, str): 
         if result.upserted_count is not None:
             logger.info(f"Upserted cout: {result.upserted_count}")
     # else:

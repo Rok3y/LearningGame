@@ -1,13 +1,12 @@
-
 import sys
 import os
-
-project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir))
-sys.path.insert(0, project_root)
 import src.db.db_common as dbc
 import src.utils.company_utils as company_utils
 import src.utils.utils as utils
 import json
+
+project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir))
+sys.path.insert(0, project_root)
 
 # test if database is properly populed
 # get all documents from companies collection and check you attribute values if it exists

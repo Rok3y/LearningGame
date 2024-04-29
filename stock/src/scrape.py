@@ -1,12 +1,11 @@
 import src.stock_scrape.scrape_ticker as st
 import yfinance as yf
 import pandas as pd
-from bs4 import BeautifulSoup
 from src.logging_config import logger
 #logger = logging.getLogger('StocksLogger')
 
 def get_all_tickers() -> pd.Series:
-    logger.info(f"Scraping all tickers...")
+    logger.info("Scraping all tickers...")
     dow_list = st.tickers_dow()
     ftse100_list = st.tickers_ftse100() # error
     ftse250_list = st.tickers_ftse250() # error

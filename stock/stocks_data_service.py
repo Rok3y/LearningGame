@@ -1,16 +1,9 @@
-import yfinance as yf
 import src.db.database as db
 import src.scrape as sc 
 import pandas as pd
-import asyncio
-import aiohttp
 import click
-from concurrent.futures import ThreadPoolExecutor
-from threading import Thread
-from queue import Queue
-from datetime import datetime, timedelta
-from time import sleep
 import src.sync_data_service as sds
+import datetime
 from src.logging_config import logger
 
 # An example of using yFinance to get stock data

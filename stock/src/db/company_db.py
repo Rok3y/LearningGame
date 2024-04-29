@@ -60,7 +60,7 @@ def add_or_update_company_document(document: dict):
     return result
 
 def add_or_update_company_document_bulk(document: dict, update_remaining: bool = False):
-    if not document is None:
+    if document is not None:
         ticker = document["ticker"]
 
         op = pymongo.UpdateOne(
@@ -77,7 +77,7 @@ def add_or_update_company_document_bulk(document: dict, update_remaining: bool =
             operations.clear()
             return result
         except Exception as e:
-            logger.error(f'Error storing company documents in database.')
+            logger.error('Error storing company documents in database.')
             logger.error(e)
             return None
     

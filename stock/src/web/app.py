@@ -37,8 +37,15 @@ app.layout = html.Div([
     html.H1('Company Data'),
     dcc.Dropdown(
         id='sector-filter',
-        options=[{'label': sector, 'value': sector} for sector in df['sectorKey'].unique()],
+        options=[{'label': str(sector), 'value': str(sector)} for sector in df['sectorKey'].unique()],
         placeholder='Select a sector',
+        value=None, # Default value
+        multi=True  # Allow multiple selections
+        ),
+    dcc.Dropdown(
+        id='country-filter',
+        options=[{'label': str(country), 'value': str(country)} for country in df['country'].unique()],
+        placeholder='Select a country',
         value=None, # Default value
         multi=True  # Allow multiple selections
         ),
@@ -70,12 +77,15 @@ app.layout = html.Div([
 
 @app.callback(
     Output('table', 'data'),
-    [Input('sector-filter', 'value')]       
+    [Input('sector-filter', 'value'),
+     Input('country-filter', 'value')]       
 )
-def update_table(selected_sectors):
-    if not selected_sectors:
-        return df.to_dict('records')
-    filtered_df = df[df['sectorKey'].isin(selected_sectors)]
+def update_table(selected_sectors, selected_countries):
+    filtered_df = df.copy()
+    if selected_sectors:
+        filtered_df = filtered_df[filtered_df['sectorKey'].isin(selected_sectors)]
+    if selected_countries:
+        filtered_df = filtered_df[filtered_df['country'].isin(selected_countries)]
     return filtered_df.to_dict('records')
 
 if __name__ == '__main__':

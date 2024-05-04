@@ -18,13 +18,19 @@
             "request": "launch",
             "program": "stock/test/test_stock_data_service.py",
             "console": "integratedTerminal"
-        }
-        ,
+        },
         {
             "name": "transfer data",
             "type": "debugpy",
             "request": "launch",
             "program": "stock/test/transfer_data.py",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Web",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "stock/src/web/app.py",
             "console": "integratedTerminal"
         }
     ]

@@ -1,4 +1,4 @@
 stock/.venv
 **/__pycache__/
 logs/
-
+.venv

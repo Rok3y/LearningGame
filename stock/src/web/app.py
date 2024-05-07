@@ -88,5 +88,8 @@ def update_table(selected_sectors, selected_countries):
         filtered_df = filtered_df[filtered_df['country'].isin(selected_countries)]
     return filtered_df.to_dict('records')
 
+# We need this for Gunicorn to find the Flask instance
+server = app.server
+
 if __name__ == '__main__':
     app.run_server(debug=True)

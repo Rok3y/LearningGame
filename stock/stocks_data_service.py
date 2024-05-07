@@ -3,7 +3,7 @@ import src.scrape as sc
 import pandas as pd
 import click
 import src.sync_data_service as sds
-import datetime
+import datetime as datetime
 from src.logging_config import logger
 
 # An example of using yFinance to get stock data
@@ -32,7 +32,7 @@ def update_ticker_list():
 def main(update_tickers: bool):
     
     logger.info("Starting stock update...")
-    start_time = datetime.now()
+    start_time = datetime.datetime.now()
     if update_tickers:
         update_ticker_list()
         
@@ -54,7 +54,7 @@ def main(update_tickers: bool):
     # Since we wait for at least 100 documents before we bulk insert, we need to check if we have any operations left and insert them
     db.add_or_update_company_document_bulk(document = None, update_remaining=True)
     # Get time needed to update data
-    end_time = datetime.now()
+    end_time = datetime.datetime.now()
     logger.info(f"Time taken: {end_time - start_time}s")
     
     # Get all failed tickers

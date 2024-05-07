@@ -33,11 +33,18 @@ def update_or_init_collection(ticker: str, exclude_attrs: list = ['companyOffice
     logger.info(f"Updating company document ({ticker})...")
     current_date = datetime.now().strftime("%Y-%m-%d")
     
+    # Since some ticker contains unxepected character we need to address them here
     ticker_original = ticker
-    # Here check if ticker contains unexpected characters. Examples: '.', '$' 'TGH$B', 'BBAI.W', 'WFC$L', 'MS$K', 'SST.W', ...
-    if ticker is None or len(ticker) > 0:
+    # Handles cases: 'BBAI.W', 'WFC$L', 'MS$K', 'SST.W', 'AA.', 'BB$', ...
+    if ticker is None or len(ticker) > 1:
         if '.' == ticker[-2] or '$' in ticker[-2]:
             ticker = ticker[:-2]
+        elif '.' == ticker[-1] or '$' in ticker[-1]:
+            ticker = ticker[:-1]
+    # Handles cases:  'A.', 'B$', ...
+    if len(ticker) == 2:
+        if '.' == ticker[-1] or '$' in ticker[-1]:
+            ticker = ticker[:-1]
     
     # Get current data (data from database and scraped data) and update db data with new data
     company_dict = db.get_company_document(ticker)

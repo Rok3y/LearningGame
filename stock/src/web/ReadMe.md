@@ -19,7 +19,7 @@
         server_name yourdomain.com;
 
         location / {
-            proxy_pass http://localhost:8000;
+            proxy_pass http://localhost:8080;
             proxy_set_header Host $host;
             proxy_set_header X-Real-IP $remote_addr;
             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -44,3 +44,10 @@
 
 ### update 
 sudo apt update && sudo apt upgrade
+
+### Run web 
+
+* cd LearningGame/
+* source .venv/bin/activate
+* cd stock/src/web/
+> gunicorn --config gunicorn_config.py app:server

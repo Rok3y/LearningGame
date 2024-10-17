@@ -12,6 +12,10 @@ Activate virtual environemtn
 Install libraries
 > pip3 install -r requirements.txt
 
+## WEB 
+
+Check [stock/src/web/ReadMe.md](this)
+
 ## Database
 
 Database service
@@ -27,9 +31,9 @@ Database logs
 ## Database backup
 
 To make a backup run command:
-> sudo mkdir /var/backups/mongodb_backups
-> backup_path="/var/backups/mongodb_backups/$(date +'%m-%d-%y')"
-> sudo mongodump --db prod_db --out "$backup_path"
+* sudo mkdir /var/backups/mongodb_backups
+* backup_path="/var/backups/mongodb_backups/$(date +'%m-%d-%y')"
+* sudo mongodump --db prod_db --out "$backup_path"
 
 ### To automate 
 
@@ -43,7 +47,7 @@ Since I cannot authenticate on no-gui machine (linux terminal) follow these step
 * give name, then everything should be default
 * Copy `C:\\Users\\rivancic\\AppData\\Roaming\\rclone\\rclone.conf` to linux VM `/home/roki/.config/rclone/rclone.conf`
 
-> Run `backup.sh ` script
+> Run `sudo backup.sh ` script
 
 Next you can create scheduled job:
 
@@ -56,7 +60,6 @@ Next you can create scheduled job:
 If you cannot create/save file in vscode remote ssh then execute this on VM
 > sudo chown -R $USER <folderPath>
 
-
 # Lint
 
 Run:
@@ -66,3 +69,6 @@ This checks all code if run in code/Learnign/stock/ location
 Run and fix:
 > ruff check --fix
 This fixes all fixable errors
+
+# RUN SCRAPING
+

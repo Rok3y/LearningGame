@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Biljard masters - Cosylab Open</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <!-- Include jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- Include TableSorter Plugin -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.3/js/jquery.tablesorter.min.js"></script>
+    <!-- Include Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Include Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $("#scoreTable").tablesorter({
+                theme: 'blue',
+                widgets: ['zebra', 'columns'],
+                usNumberFormat: false,
+                sortReset: true,
+                sortRestart: true
+            });
+        });
+        $(document).ready(function() {
+            $("#playerTable").tablesorter({
+                theme: 'blue',
+                widgets: ['zebra', 'columns'],
+                usNumberFormat: false,
+                sortReset: true,
+                sortRestart: true
+            });
+        });
+    </script>
+    <script>
+        function updateWinnersDropdown()
+        {
+            var player1Select = document.getElementById('player1');
+            var player2Select = document.getElementById('player2');
+            var winnerSelect = document.getElementById('Winner');
+            var player1Value = player1Select.value;
+            var player2Value = player2Select.value;
+
+            // Clear the dropdowns
+            winnerSelect.innerHTML = '';
+            if (player2Select.value === 'Select player') {
+                return;
+            }
+
+            var option1 = new Option(player1Value, player1Value);
+            var option2 = new Option(player2Value, player2Value);
+            winnerSelect.options.add(option1);
+            winnerSelect.options.add(option2);
+        }
+
+        // Populate the dropdown with options based on the selection
+        document.addEventListener('DOMContentLoaded', function() 
+        {
+            var player1Select = document.getElementById('player1');
+            var player2Select = document.getElementById('player2');
+
+            if (player2Select.value === 'Select player') {
+                return;
+            }
+
+            var winnerSelect = document.getElementById('Winner');
+            var player1Value = player1Select.value;
+            var player2Value = player2Select.value;
+
+            var option1 = new Option(player1Value, player1Value);
+            var option2 = new Option(player2Value, player2Value);
+            winnerSelect.options.add(option1);
+            winnerSelect.options.add(option2);
+        });
+
+    </script>
+</head>
+<body>
+    <header class="header-container">
+        <h1>Biljard masters - CSL Open</h1>
+        <!-- Conditionally render the link/button based on the authentication state -->
+        {% if session['auth_user'] %}
+            <a href="{{ url_for('logout') }}" class="auth-link">{{session['auth_user']['username']}} (Logout)
+                <img src="{{session['auth_user']['profile_picture']}}" class="circular-image">
+            </a>
+        {% else %}
+            <a href="{{ url_for('login') }}" class="auth-link">Sign In</a>
+        {% endif %}
+    </header>
+    <h2>Dodaj rezultat</h2>
+    
+    <!-- text about the input form -->
+    <p>Dodaj rezultat igre. Izberite igralca, ki sta igrala, zmagovalca, datum in ali je zmagovalec zmagal s črno kroglo.</p>
+    
+    <div class="inline">
+        <p>Igralec 1:</p>
+        <p>Igralec 2:</p>
+        <p  style="margin-left: -10px;">Zmagovalec:</p>
+        <p  style="margin-left: -40px;">Zmaga s črno:</p>
+    </div>
+
+    <form method="POST">
+        <select id="player1" name="Player1" required>
+            {% if session['auth_user'] %}
+                <option value="{{session['auth_user']['full_name']}}">{{session['auth_user']['full_name']}}</option>
+            {% else %}
+                {% for option in player1_options %}
+                    <option value="{{ option }}">{{ option }}</option>
+                {% endfor %}
+            {% endif %}
+        </select>
+        <select id="player2" name="Player2" required onchange="updateWinnersDropdown();">
+            {% for option in player1_options %}
+                {% if session['auth_user'] %}
+                    {% if option != session['auth_user']['full_name'] %}
+                        <option value="{{ option }}">{{ option }}</option>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+        </select>
+        <select id="Winner" name="Winner" required>
+            <!-- Options will be populated by JavaScript -->
+        </select>
+        <select id="black_fail" name="black_fail" required>
+            <option value="False">Ne</option>
+            <option value="True">Da</option>
+        </select>
+        <button type="submit">Dodaj</button>
+    </form>
+    <h2>Skupno</h2>
+    <table id="playerTable">
+        <thead>
+            <tr>
+                <th>Igralec    &#x2193;&#x2191;</th>
+                <th>Zmage    &#x2193;&#x2191;</th>
+                <th>Porazi    &#x2193;&#x2191;</th>
+                <th>Procent zmag    &#x2193;&#x2191;</th>
+                <th>Zmaga s črno    &#x2193;&#x2191;</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in common %}
+            <tr>
+                <td><img src="{{ row['profile_picture'] }}" class="circular-image-small"> {{ row['player'] }}</td>
+                <td>{{ row['wins'] }}</td>
+                <td>{{ row['losses'] }}</td>
+                <td>{{ (row['wins'] / (row['wins'] + row['losses']) * 100) | round(1) if row['wins'] + row['losses'] > 0 else 0 }}%</td>
+                <td>{{ row['wins_with_black'] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <h2>Rezultati</h2>
+    <table id="scoreTable" class="tablesorter">
+        <thead>
+            <tr>
+                <th>Igralec    &#x2193;&#x2191;</th>
+                <th>Igralec    &#x2193;&#x2191;</th>
+                <th style="background-color: yellowgreen;">Zmagovalec</th>
+                <th>Datum    &#x2193;&#x2191;</th>
+                <th>S črno ?    &#x2193;&#x2191;</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for match in matches %}
+            <tr>
+                <td>{{ match[1] }}</td>
+                <td>{{ match[2] }}</td>
+                <td style="background-color: lightgreen;">{{ match[3] }}</td>
+                <td>{{ match[5] }}</td>
+                <td style="background-color: {{ 'lightcoral' if match[6] == 1 }};">{{ "Da" if match[6] == 1 else "Ne" }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Modal -->
+    <div class="modal fade" id="feedbackModal" tabindex="-1" aria-labelledby="feedbackModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="feedbackModalLabel">Submission Feedback</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div class="modal-body">
+                <!-- Here I want the image -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        {{ message }}</br>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            </br>
+            <p>&#129351;</p>
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <!-- Flash messages are displayed as alerts -->
+    <script>
+        $(document).ready(function() {
+            {% if get_flashed_messages() %}
+                $('#feedbackModal').modal('show');
+            {% endif %}
+        });
+    </script>
+</body>
+</html>

@@ -1,33 +1,42 @@
-#include "Rect.h"
+#include "Particle.h"
 #include "Utils.h"
 #include "Screen.h"
 #include "Color.h"
 
-Rect::Rect(const Vec2D& pos, uint32_t width, uint32_t height)
+Particle::Particle(const Vec2D& pos, uint32_t width, uint32_t height)
 	: mRect(pos, width, height)
 {
 	mVelocity = Vec2D::Zero;
 	mAcceleration = Vec2D::Zero;
 }
 
-void Rect::SetPosition(const Vec2D& pos)
+void Particle::SetPosition(const Vec2D& pos)
 {
 	mRect.MoveTo(pos);
 }
 
-void Rect::SetVelocity(const Vec2D& vel)
+void Particle::SetVelocity(const Vec2D& vel)
 {
 	mVelocity = vel;
 }
 
-void Rect::SetAcceleration(const Vec2D& acc)
+void Particle::SetAcceleration(const Vec2D& acc)
 {
 	mAcceleration = acc;
 }
 
-void Rect::Update(uint32_t dt)
+void Particle::SetMass(float mass)
+{
+	mMass = mass;
+}
+
+void Particle::Update(uint32_t dt)
 {
 	// Modify velocity by acceleration
+
+	Vec2D acceleration = 
+
+	mVelocity += mAcceleration;
 
 	Vec2D dx = mVelocity * MillisecondsToSeconds(dt);
 	mRect.MoveBy(dx);
@@ -72,7 +81,7 @@ void Rect::Update(uint32_t dt)
 	}
 }
 
-void Rect::Draw(Screen& screen)
+void Particle::Draw(Screen& screen)
 {
 	screen.Draw(mRect, Color::Cyan(), true, Color::Blue());
 }

@@ -5,6 +5,7 @@
 #include "Triangle.h"
 #include "AARectangle.h"
 #include "Circle.h"
+#include "Rocket.h"
 #include "Utils.h"
 #include <SDL.h>
 #include <iostream>
@@ -242,6 +243,46 @@ void Screen::Draw(const Circle& circle, const Color& color, bool fill, const Col
     {
         Draw(line, color);
     }
+}
+
+
+void Screen::Draw(const Rocket& rocket, const Color& color, bool fill, const Color& fillColor)
+{
+    // Last point is center of mass, remove from the rest
+    std::vector<Vec2D> points = rocket.GetPoints();
+    Vec2D centerOfMass = points.back();
+    points.pop_back();
+
+    if (fill)
+    {
+        FillPoly(points, fillColor);
+    }
+
+    Line2D line1 = Line2D(points.at(0), points.at(1));
+    Line2D line2 = Line2D(points.at(1), points.at(2));
+    Line2D line3 = Line2D(points.at(2), points.at(3));
+    Line2D line4 = Line2D(points.at(3), points.at(4));
+    Line2D line5 = Line2D(points.at(4), points.at(0));
+
+    // Draw points line to debug
+    {
+        //Circle pTip = Circle(rocket.GetRocketTipPoint(), 10);
+        //Circle pBl = Circle(rocket.GetBottomLeftPoint(), 10);
+        //Circle pBr = Circle(rocket.GetBottomRightPoint(), 10);
+
+        Circle pCenterPoint = Circle(centerOfMass, 10);
+        //Draw(pTip, Color::Red(), true, Color::Red());
+        //Draw(pBl, Color::Green(), true, Color::Green());
+        //Draw(pBr, Color::Cyan(), true, Color::Cyan());
+        Draw(pCenterPoint, Color::Cyan(), true, Color::Cyan());
+    }
+    // End debug
+
+    Draw(line1, color);
+    Draw(line2, color);
+    Draw(line3, color);
+    Draw(line4, color);
+    Draw(line5, color);
 }
 
 void Screen::ClearScreen()

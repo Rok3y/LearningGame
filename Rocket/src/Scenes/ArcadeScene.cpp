@@ -7,9 +7,10 @@
 #include "Line2D.h"
 #include "GameController.h"
 #include <iostream>
+#include <Utils.h>
 
 ArcadeScene::ArcadeScene(uint32_t width, uint32_t height)
-	:mWidth(width), mHeight(height), mRect(Vec2D(100, 100), 50, 50)
+	:mWidth(width), mHeight(height), mRect(Vec2D(100, 100), 50, 50), mRocket(Vec2D(100, 150), 10, 110, 50)
 {
 	mBoundary.SetTopLeftPoint(Vec2D::Zero);
 	mBoundary.SetBottomRightPoint(Vec2D(mWidth-1, mHeight-1));
@@ -46,21 +47,28 @@ void ArcadeScene::Init()
 			std::cout << "Mouse position x: " << mousePosition.xPos << ", Y: " << mousePosition.yPos << std::endl;
 		});
 
-	mRect.SetCollideWithEdge(true);
-	mRect.SetScreenBoundary(mBoundary);
-	mRect.SetVelocity(Vec2D(-100.0f, 20.0f));
+	//mRect.SetCollideWithEdge(true);
+	//mRect.SetScreenBoundary(mBoundary);
+	//mRect.SetVelocity(Vec2D(-100.0f, 20.0f));
+
+	mRocket.SetCollideWithEdge(true);
+	mRocket.SetScreenBoundary(mBoundary);
+	mRocket.SetVelocity(Vec2D(50.0f, 50.0f));
 }
 
 void ArcadeScene::Update(uint32_t dt)
 {
-	mRect.Update(dt);
+	//mRect.Update(dt);
+	mRocket.Update(dt);
+	mRocket.Rotate(0.001*dt);
 }
 
 void ArcadeScene::Draw(Screen& screen)
 {
 	screen.Draw(mBoundary, Color::Red());
 
-	mRect.Draw(screen);
+	//mRect.Draw(screen);
+	mRocket.Draw(screen);
 
 }
 

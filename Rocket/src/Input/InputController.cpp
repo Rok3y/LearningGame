@@ -23,6 +23,7 @@ void InputController::Update(uint32_t dt)
 			case SDL_QUIT:
 			{
 				mQuit(dt, SDL_PRESSED);
+				break;
 			}
 			case SDL_MOUSEMOTION:
 			{

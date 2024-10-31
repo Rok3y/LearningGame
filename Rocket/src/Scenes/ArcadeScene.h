@@ -3,6 +3,7 @@
 
 #include "Scene.h"
 #include "Game/Rect.h"
+#include "Game/Rocketship.h"
 #include "AARectangle.h"
 #include <memory>
 
@@ -21,6 +22,7 @@ private:
 	uint32_t mWidth, mHeight;
 	AARectangle mBoundary;
 	Rect mRect;
+	Rocketship mRocket;
 	//std::unique_ptr<Scene> GetScene(eGame game);
 };
 
